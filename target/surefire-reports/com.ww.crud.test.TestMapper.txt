@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.ww.crud.test.TestMapper
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.73 s - in com.ww.crud.test.TestMapper

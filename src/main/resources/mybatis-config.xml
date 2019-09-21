@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--mybatis全局配置文件-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--<properties resource="db.properties"/>-->
+    <settings>
+        <!--配置日志系统使用log4j,默认未配置，会自动寻找已有日志系统-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!--开启驼峰命名规则自动转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <!--开启懒加载模式-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--关闭全局加载(一次性全部加载)-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--<setting name="cacheEnabled" value="true"/>使用二级缓存，默认值就是true-->
+        <!--<setting name="localCacheScope" value="STATEMENT"/>不使用一级缓存-->
+    </settings>
+    <!--<environments default="dev">-->
+    <!--    <environment id="dev">-->
+    <!--        <transactionManager type="JDBC"></transactionManager>-->
+    <!--        <dataSource type="POOLED">-->
+    <!--            <property name="driver" value="${jdbc.mysql.driverClass}"/>-->
+    <!--            <property name="url" value="${jdbc.mysql.url}"/>-->
+    <!--            <property name="username" value="${jdbc.mysql.username}"/>-->
+    <!--            <property name="password" value="${jdbc.mysql.password}"/>-->
+    <!--        </dataSource>-->
+    <!--    </environment>-->
+    <!--</environments>-->
+    <!--配置pageHelper分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 使参数合理化，页数限制在1~ 最后一页之间-->
+            <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+            <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+            <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+</configuration>

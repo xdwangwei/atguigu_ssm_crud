@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com.ww">
+        <!--扫描Controlle注解-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--配置视图文件的路径-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!--配置视图文件的后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--使用此注解则不用配置处理器适配器和映射器-->
+    <mvc:annotation-driven/>
+
+    <!--配置访问静态资源(js.css,images)时前端控制器不拦截-->
+    <!--<mvc:resources mapping="/static/js/**" location="/static/js/"/>-->
+    <!--<mvc:resources mapping="/static/css/**" location="/static/css/"/>-->
+    <!--<mvc:resources mapping="/static/images/**" location="/static/images/"/>-->
+
+    <!--如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Servlet处理，
+    如果不是静态资源的请求，才由DispatcherServlet继续处理-->
+    <mvc:default-servlet-handler/>
+
+</beans>

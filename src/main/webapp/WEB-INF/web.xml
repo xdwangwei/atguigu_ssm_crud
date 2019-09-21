@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-mybatis.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springMVC.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--字符编码过滤器放在所有过滤器之前-->
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--配置RESTFUL风格的URI-->
+    <!--
+        比如：我在controller中定义的某个控制器要求访问方式是PUT，而若我使用ajax发送POST请求
+        只需要给请求体(json数据)之后拼接"&_method=PUT",就可把此POST请求转为PUT请求
+    -->
+    <filter>
+        <!--将页面提交时的普通的post请求改为指定的PUT或DELETE请求-->
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+        1.springMVC controller方法，封装请求体中数据时，实质上还是 request.getParameter()
+            而request.getParameter()是从tomacat封装好的map中去获取数据
+        2.tomcat默认只会将POST请求方式的请求体封装成map
+            因此对于PUT请求的请求体，tomcat不会将其封装成map，
+            request.getParameter() 获取不到请求体中的数据，数据封装自然就失败了
+        3. 此过滤器的功能：
+            实现了将PUT或PATCH请求方式携带的请求体内容封装到自定义map中，重写了request.getParameter()方法
+            先调用父类的getParameter()方法，若能找到则返回数据，若未找到，则再去自定义的map中寻找，
+            最终返回结果，因此不会出现PUT请求体内容不被封装的问题
+    -->
+    <filter>
+        <filter-name>httpPutFormContentFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>httpPutFormContentFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+</web-app>
