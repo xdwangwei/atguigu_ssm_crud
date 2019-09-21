@@ -116,7 +116,7 @@
     
 ### 十、总结
 
-![img](file:///C:\Users\王伟\AppData\Roaming\Tencent\Users\207800885\QQ\WinTemp\RichOle\{U15TPJ}JN{TEGW]M@_4U46.png)
+![img](https://github.com/yushengww/atguigu_ssm_crud/blob/master/%7BU15TPJ%7DJN%7BTEGW%5DM%40_4U46.png)
 
 
 
